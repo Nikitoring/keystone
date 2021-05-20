@@ -64,7 +64,7 @@ multiAdapterRunners().map(({ runner, provider }) =>
           // Update the item and link the relationship field
           const event = await context.lists.Event.updateOne({
             id: createEvent.id,
-            data: { group: { disconnectAll: true } },
+            data: { group: null },
             query: 'id group { id }',
           });
 
@@ -85,7 +85,7 @@ multiAdapterRunners().map(({ runner, provider }) =>
         runner(setupKeystone, async ({ context }) => {
           // Create an item that does the linking
           const event = await context.lists.Event.createOne({
-            data: { group: { disconnectAll: true } },
+            data: { group: null },
             query: 'id group { id }',
           });
 
@@ -102,7 +102,7 @@ multiAdapterRunners().map(({ runner, provider }) =>
           // Create an item that does the linking
           const event = await context.lists.Event.updateOne({
             id: createEvent.id,
-            data: { group: { disconnectAll: true } },
+            data: { group: null },
             query: 'id group { id }',
           });
 
@@ -136,7 +136,7 @@ multiAdapterRunners().map(({ runner, provider }) =>
             // Update the item and link the relationship field
             await context.exitSudo().lists.EventToGroupNoRead.updateOne({
               id: createEvent.id,
-              data: { group: { disconnectAll: true } },
+              data: { group: null },
             });
 
             // Avoid false-positives by checking the database directly

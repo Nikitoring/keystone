@@ -249,7 +249,7 @@ multiAdapterRunners().map(({ runner, provider }) =>
                   expect(data).toBe(undefined);
                   expect(errors).toHaveLength(1);
                   expect(errors![0].message).toEqual(
-                    `Field "create" is not defined by type "${group.name}RelateToOneInput".`
+                    `Field "create" is not defined by type "${group.name}RelateToOneForCreateInput".`
                   );
                 } else {
                   // Assert it throws an access denied error
@@ -311,7 +311,7 @@ multiAdapterRunners().map(({ runner, provider }) =>
                   expect(data).toBe(undefined);
                   expect(errors).toHaveLength(1);
                   expect(errors![0].message).toEqual(
-                    `Field "create" is not defined by type "${group.name}RelateToOneInput".`
+                    `Field "create" is not defined by type "${group.name}RelateToOneForUpdateInput".`
                   );
                 } else {
                   expect(data).not.toBe(null);
