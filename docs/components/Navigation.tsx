@@ -78,6 +78,7 @@ export function Navigation() {
         <NavItem href="/guides/hooks">Hooks</NavItem>
         <NavItem href="/guides/document-fields">Document Fields</NavItem>
         <NavItem href="/guides/virtual-fields">Virtual Fields</NavItem>
+        <NavItem href="/guides/testing">Testing</NavItem>
         <NavItem href="/guides/access-control" isPlaceholder>
           Access Control
         </NavItem>
@@ -89,9 +90,6 @@ export function Navigation() {
         </NavItem>
         <NavItem href="/guides/internal-items" isPlaceholder>
           Internal Items
-        </NavItem>
-        <NavItem href="/guides/testing" isPlaceholder>
-          Testing
         </NavItem>
         <NavItem href="/guides/custom-admin-ui-pages" isPlaceholder>
           Custom Admin UI Pages

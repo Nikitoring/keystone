@@ -3,6 +3,44 @@ import { ComingSoon } from '../../components/ComingSoon';
 
 # Testing
 
-<ComingSoon/>
+When building a web application it's important to be able to test the behaviour of your system to ensure it does what you expect.
+In this guide we'll show you how to use the `@keystone-next/testing` package and [Jest](https://jestjs.io/) to write tests to check the behaviour of your GraphQL API.
+
+## Test runner
+
+The first step to writing a test for your Keystone system is to setup a test runner using `setupTestRunner`.
+You can then use this runner to wrap your test functions.
+
+```typescript
+import { setupTestRunner } from '@keystone-next/testing';
+import { config } from './keystone';
+
+const runner = setupTestRunner({ config });
+
+test(
+  'Keystone test',
+  runner(() => {
+    // Write your test here
+  })
+);
+```
+
+The test runner does a number of things for you here.
+It starts by creating a connection to the database and dropping all the data.
+This ensures that all tests are run in a known state.
+
+The test runner then sets up a partial Keystone system for you, including an Apollo server to handle GraphQL requests.
+The system does not include an Admin UI, and does not open a network port to listen for requests.
+
+Finally, the runner sets up two APIs for you to use in your test. The first is a `KeystoneContext` object, which lets you use any of the functions in the [context API](../apis/context).
+The second is a `graphQLRequest` function, which lets you run GraphQL requests over HTTP using the [`supertest`](https://github.com/visionmedia/supertest) library
+
+x> The test runner will drop all data in your database on each run. Make sure you do not run your tests against a system with live data.
+
+## Writing tests
+
+### Context API
+
+### graphQLRequest API
 
 export default ({ children }) => <Markdown>{children}</Markdown>;
