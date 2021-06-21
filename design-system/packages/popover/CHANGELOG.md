@@ -1,5 +1,13 @@
 # @keystone-ui/popover
 
+## 4.0.2
+
+### Patch Changes
+
+- [#5924](https://github.com/keystonejs/keystone/pull/5924) [`0afacf621`](https://github.com/keystonejs/keystone/commit/0afacf621f922b5f47f7314ead9be94960b9859a) Thanks [@gwyneplaine](https://github.com/gwyneplaine)! - Fixed popover arrow misalignment.
+
+* [#5921](https://github.com/keystonejs/keystone/pull/5921) [`eab130f30`](https://github.com/keystonejs/keystone/commit/eab130f30d79b82c18b3cce0bc054abe2c1b58fd) Thanks [@gwyneplaine](https://github.com/gwyneplaine)! - Applied aria-modal and role=dialog to popover component for better screen reader support.
+
 ## 4.0.1
 
 ### Patch Changes
