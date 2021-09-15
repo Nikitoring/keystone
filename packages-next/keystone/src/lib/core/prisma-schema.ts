@@ -193,17 +193,22 @@ function assertDbFieldIsValidForIdField(
 export function printPrismaSchema(
   lists: ListsWithResolvedRelations,
   provider: DatabaseProvider,
-  clientDir: string
+  clientDir: string,
+  prismaPreviewFeatures?: string[]
 ) {
+  let prismaFlags = '';
+  if (prismaPreviewFeatures && prismaPreviewFeatures.length) {
+    prismaFlags = `\n  previewFeatures = ["${prismaPreviewFeatures.join('","')}"]`;
+  }
   let prismaSchema = `datasource ${provider} {
-  url = env("DATABASE_URL")
-  provider = "${provider}"
-}
+    url = env("DATABASE_URL")
+    provider = "${provider}"
+  }
 
-generator client {
-  provider = "prisma-client-js"
-  output = "${clientDir}"
-}
+  generator client {
+    provider = "prisma-client-js"
+    output = "${clientDir}"${prismaFlags}
+  }
 \n`;
   for (const [listKey, { resolvedDbFields }] of Object.entries(lists)) {
     prismaSchema += `model ${listKey} {`;
