@@ -58,6 +58,7 @@ export type DatabaseConfig = {
   onConnect?: (args: KeystoneContext) => Promise<void>;
   useMigrations?: boolean;
   enableLogging?: boolean;
+  prismaPreviewFeatures?: string[];
   idField?: IdFieldConfig;
 } & (
   | (
