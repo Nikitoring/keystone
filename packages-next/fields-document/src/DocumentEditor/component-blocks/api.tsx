@@ -46,15 +46,15 @@ export type FormField<Value, Options> = {
 type InlineMarksConfig =
   | 'inherit'
   | {
-    bold?: 'inherit';
-    code?: 'inherit';
-    italic?: 'inherit';
-    strikethrough?: 'inherit';
-    underline?: 'inherit';
-    keyboard?: 'inherit';
-    subscript?: 'inherit';
-    superscript?: 'inherit';
-  };
+      bold?: 'inherit';
+      code?: 'inherit';
+      italic?: 'inherit';
+      strikethrough?: 'inherit';
+      underline?: 'inherit';
+      keyboard?: 'inherit';
+      subscript?: 'inherit';
+      superscript?: 'inherit';
+    };
 
 type BlockFormattingConfig = {
   alignment?: 'inherit';
@@ -68,24 +68,24 @@ type BlockFormattingConfig = {
 export type ChildField = {
   kind: 'child';
   options:
-  | {
-    kind: 'block';
-    placeholder: string;
-    formatting?: BlockFormattingConfig;
-    dividers?: 'inherit';
-    links?: 'inherit';
-    relationships?: 'inherit';
-  }
-  | {
-    kind: 'inline';
-    placeholder: string;
-    formatting?: {
-      inlineMarks?: InlineMarksConfig;
-      softBreaks?: 'inherit';
-    };
-    links?: 'inherit';
-    relationships?: 'inherit';
-  };
+    | {
+        kind: 'block';
+        placeholder: string;
+        formatting?: BlockFormattingConfig;
+        dividers?: 'inherit';
+        links?: 'inherit';
+        relationships?: 'inherit';
+      }
+    | {
+        kind: 'inline';
+        placeholder: string;
+        formatting?: {
+          inlineMarks?: InlineMarksConfig;
+          softBreaks?: 'inherit';
+        };
+        links?: 'inherit';
+        relationships?: 'inherit';
+      };
 };
 
 export type RelationshipField<Cardinality extends 'one' | 'many'> = {
@@ -97,7 +97,7 @@ export type RelationshipField<Cardinality extends 'one' | 'many'> = {
 
 export interface ObjectField<
   Value extends Record<string, ComponentPropField> = Record<string, ComponentPropField>
-  > {
+> {
   kind: 'object';
   value: Value;
 }
@@ -105,16 +105,16 @@ export interface ObjectField<
 export type ConditionalField<
   Discriminant extends string | boolean,
   ConditionalValue extends [Discriminant] extends [boolean]
-  ? { true: ComponentPropField; false: ComponentPropField }
-  : [Discriminant] extends [string]
-  ? { [Key in Discriminant]: ComponentPropField }
-  : never,
+    ? { true: ComponentPropField; false: ComponentPropField }
+    : [Discriminant] extends [string]
+    ? { [Key in Discriminant]: ComponentPropField }
+    : never,
   DiscriminantOptions
-  > = {
-    kind: 'conditional';
-    discriminant: FormField<Discriminant, DiscriminantOptions>;
-    values: ConditionalValue;
-  };
+> = {
+  kind: 'conditional';
+  discriminant: FormField<Discriminant, DiscriminantOptions>;
+  values: ConditionalValue;
+};
 
 export type ComponentPropField =
   | ChildField
@@ -311,58 +311,58 @@ export const fields = {
   child(
     options:
       | {
-        kind: 'block';
-        placeholder: string;
-        formatting?: BlockFormattingConfig | 'inherit';
-        dividers?: 'inherit';
-        links?: 'inherit';
-        relationships?: 'inherit';
-      }
+          kind: 'block';
+          placeholder: string;
+          formatting?: BlockFormattingConfig | 'inherit';
+          dividers?: 'inherit';
+          links?: 'inherit';
+          relationships?: 'inherit';
+        }
       | {
-        kind: 'inline';
-        placeholder: string;
-        formatting?:
-        | 'inherit'
-        | {
-          inlineMarks?: InlineMarksConfig;
-          softBreaks?: 'inherit';
-        };
-        links?: 'inherit';
-        relationships?: 'inherit';
-      }
+          kind: 'inline';
+          placeholder: string;
+          formatting?:
+            | 'inherit'
+            | {
+                inlineMarks?: InlineMarksConfig;
+                softBreaks?: 'inherit';
+              };
+          links?: 'inherit';
+          relationships?: 'inherit';
+        }
   ): ChildField {
     return {
       kind: 'child',
       options:
         options.kind === 'block'
           ? {
-            kind: 'block',
-            placeholder: options.placeholder,
-            dividers: options.dividers,
-            formatting:
-              options.formatting === 'inherit'
-                ? {
-                  blockTypes: 'inherit',
-                  headingLevels: 'inherit',
-                  inlineMarks: 'inherit',
-                  listTypes: 'inherit',
-                  alignment: 'inherit',
-                  softBreaks: 'inherit',
-                }
-                : options.formatting,
-            links: options.links,
-            relationships: options.relationships,
-          }
+              kind: 'block',
+              placeholder: options.placeholder,
+              dividers: options.dividers,
+              formatting:
+                options.formatting === 'inherit'
+                  ? {
+                      blockTypes: 'inherit',
+                      headingLevels: 'inherit',
+                      inlineMarks: 'inherit',
+                      listTypes: 'inherit',
+                      alignment: 'inherit',
+                      softBreaks: 'inherit',
+                    }
+                  : options.formatting,
+              links: options.links,
+              relationships: options.relationships,
+            }
           : {
-            kind: 'inline',
-            placeholder: options.placeholder,
-            formatting:
-              options.formatting === 'inherit'
-                ? { inlineMarks: 'inherit', softBreaks: 'inherit' }
-                : options.formatting,
-            links: options.links,
-            relationships: options.relationships,
-          },
+              kind: 'inline',
+              placeholder: options.placeholder,
+              formatting:
+                options.formatting === 'inherit'
+                  ? { inlineMarks: 'inherit', softBreaks: 'inherit' }
+                  : options.formatting,
+              links: options.links,
+              relationships: options.relationships,
+            },
     };
   },
   object<Value extends Record<string, ComponentPropField>>(value: Value): ObjectField<Value> {
@@ -371,10 +371,10 @@ export const fields = {
   conditional<
     Discriminant extends string | boolean,
     ConditionalValue extends [Discriminant] extends [boolean]
-    ? { true: ComponentPropField; false: ComponentPropField }
-    : [Discriminant] extends [string]
-    ? { [Key in Discriminant]: ComponentPropField }
-    : never,
+      ? { true: ComponentPropField; false: ComponentPropField }
+      : [Discriminant] extends [string]
+      ? { [Key in Discriminant]: ComponentPropField }
+      : never,
     DiscriminantOptions
   >(
     discriminant: FormField<Discriminant, DiscriminantOptions>,
@@ -399,16 +399,16 @@ export const fields = {
 
 export type ComponentBlock<
   Props extends Record<string, ComponentPropField> = Record<string, ComponentPropField>
-  > = {
-    component: (props: any) => ReactElement | null;
-    props: Props;
-    label: string;
-  } & (
-    | {
+> = {
+  component: (props: any) => ReactElement | null;
+  props: Props;
+  label: string;
+} & (
+  | {
       chromeless: true;
       toolbar?: (props: { props: Record<string, any>; onRemove(): void }) => ReactElement;
     }
-    | {
+  | {
       chromeless?: false;
       toolbar?: (props: {
         props: Record<string, any>;
@@ -417,7 +417,7 @@ export type ComponentBlock<
         isValid: boolean;
       }) => ReactElement;
     }
-  );
+);
 
 type DiscriminantToString<Discriminant extends string | boolean> = Discriminant extends boolean
   ? 'true' | 'false'
@@ -427,77 +427,77 @@ type CastToComponentPropField<Prop> = Prop extends ComponentPropField ? Prop : n
 
 export type ExtractPropFromComponentPropFieldForPreview<Prop extends ComponentPropField> =
   Prop extends ChildField
-  ? ReactNode
-  : Prop extends FormField<infer Value, infer Options>
-  ? { readonly value: Value; onChange(value: Value): void; readonly options: Options }
-  : Prop extends ObjectField<infer Value>
-  ? { readonly [Key in keyof Value]: ExtractPropFromComponentPropFieldForPreview<Value[Key]> }
-  : Prop extends ConditionalField<infer Discriminant, infer Value, infer DiscriminantOptions>
-  ? {
-    readonly [Key in DiscriminantToString<Discriminant>]: {
-      readonly discriminant: Discriminant extends boolean
-      ? 'true' extends Key
-      ? true
-      : 'false' extends Key
-      ? false
-      : never
-      : Discriminant;
-      onChange(discriminant: Discriminant): void;
-      readonly options: DiscriminantOptions;
-      readonly value: Key extends keyof Value
-      ? ExtractPropFromComponentPropFieldForPreview<CastToComponentPropField<Value[Key]>>
-      : never;
-    };
-  }[DiscriminantToString<Discriminant>]
-  : Prop extends RelationshipField<infer Cardinality>
-  ? {
-    one: {
-      readonly value: HydratedRelationshipData | null;
-      onChange(relationshipData: HydratedRelationshipData | null): void;
-    };
-    many: {
-      readonly value: readonly HydratedRelationshipData[];
-      onChange(relationshipData: readonly HydratedRelationshipData[]): void;
-    };
-  }[Cardinality]
-  : never;
+    ? ReactNode
+    : Prop extends FormField<infer Value, infer Options>
+    ? { readonly value: Value; onChange(value: Value): void; readonly options: Options }
+    : Prop extends ObjectField<infer Value>
+    ? { readonly [Key in keyof Value]: ExtractPropFromComponentPropFieldForPreview<Value[Key]> }
+    : Prop extends ConditionalField<infer Discriminant, infer Value, infer DiscriminantOptions>
+    ? {
+        readonly [Key in DiscriminantToString<Discriminant>]: {
+          readonly discriminant: Discriminant extends boolean
+            ? 'true' extends Key
+              ? true
+              : 'false' extends Key
+              ? false
+              : never
+            : Discriminant;
+          onChange(discriminant: Discriminant): void;
+          readonly options: DiscriminantOptions;
+          readonly value: Key extends keyof Value
+            ? ExtractPropFromComponentPropFieldForPreview<CastToComponentPropField<Value[Key]>>
+            : never;
+        };
+      }[DiscriminantToString<Discriminant>]
+    : Prop extends RelationshipField<infer Cardinality>
+    ? {
+        one: {
+          readonly value: HydratedRelationshipData | null;
+          onChange(relationshipData: HydratedRelationshipData | null): void;
+        };
+        many: {
+          readonly value: readonly HydratedRelationshipData[];
+          onChange(relationshipData: readonly HydratedRelationshipData[]): void;
+        };
+      }[Cardinality]
+    : never;
 
 type ExtractPropFromComponentPropFieldForToolbar<Prop extends ComponentPropField> =
   Prop extends ChildField
-  ? undefined
-  : Prop extends FormField<infer Value, infer Options>
-  ? { readonly value: Value; onChange(value: Value): void; readonly options: Options }
-  : Prop extends ObjectField<infer Value>
-  ? { readonly [Key in keyof Value]: ExtractPropFromComponentPropFieldForToolbar<Value[Key]> }
-  : Prop extends ConditionalField<infer Discriminant, infer Value, infer DiscriminantOptions>
-  ? {
-    readonly [Key in DiscriminantToString<Discriminant>]: {
-      readonly discriminant: Discriminant extends boolean
-      ? 'true' extends Key
-      ? true
-      : 'false' extends Key
-      ? false
-      : never
-      : Discriminant;
-      onChange(discriminant: Discriminant): void;
-      readonly options: DiscriminantOptions;
-      readonly value: Key extends keyof Value
-      ? ExtractPropFromComponentPropFieldForToolbar<CastToComponentPropField<Value[Key]>>
-      : never;
-    };
-  }[DiscriminantToString<Discriminant>]
-  : Prop extends RelationshipField<infer Cardinality>
-  ? {
-    one: {
-      readonly value: HydratedRelationshipData | null;
-      onChange(relationshipData: HydratedRelationshipData | null): void;
-    };
-    many: {
-      readonly value: readonly HydratedRelationshipData[];
-      onChange(relationshipData: readonly HydratedRelationshipData[]): void;
-    };
-  }[Cardinality]
-  : never;
+    ? undefined
+    : Prop extends FormField<infer Value, infer Options>
+    ? { readonly value: Value; onChange(value: Value): void; readonly options: Options }
+    : Prop extends ObjectField<infer Value>
+    ? { readonly [Key in keyof Value]: ExtractPropFromComponentPropFieldForToolbar<Value[Key]> }
+    : Prop extends ConditionalField<infer Discriminant, infer Value, infer DiscriminantOptions>
+    ? {
+        readonly [Key in DiscriminantToString<Discriminant>]: {
+          readonly discriminant: Discriminant extends boolean
+            ? 'true' extends Key
+              ? true
+              : 'false' extends Key
+              ? false
+              : never
+            : Discriminant;
+          onChange(discriminant: Discriminant): void;
+          readonly options: DiscriminantOptions;
+          readonly value: Key extends keyof Value
+            ? ExtractPropFromComponentPropFieldForToolbar<CastToComponentPropField<Value[Key]>>
+            : never;
+        };
+      }[DiscriminantToString<Discriminant>]
+    : Prop extends RelationshipField<infer Cardinality>
+    ? {
+        one: {
+          readonly value: HydratedRelationshipData | null;
+          onChange(relationshipData: HydratedRelationshipData | null): void;
+        };
+        many: {
+          readonly value: readonly HydratedRelationshipData[];
+          onChange(relationshipData: readonly HydratedRelationshipData[]): void;
+        };
+      }[Cardinality]
+    : never;
 
 export type HydratedRelationshipData = {
   id: string;
@@ -526,7 +526,7 @@ export function component<
     /** The label to show in the insert menu and chrome around the block if chromeless is false */
     label: string;
   } & (
-      | {
+    | {
         chromeless: true;
         toolbar?: (props: {
           props: {
@@ -537,7 +537,7 @@ export function component<
           onRemove(): void;
         }) => ReactElement;
       }
-      | {
+    | {
         chromeless?: false;
         toolbar?: (props: {
           props: {
@@ -549,7 +549,7 @@ export function component<
           onRemove(): void;
         }) => ReactElement;
       }
-    )
+  )
 ): ComponentBlock<PropsOption> {
   return options as any;
 }
@@ -564,32 +564,32 @@ type Comp<Props> = (props: Props) => ReactElement | null;
 
 type ExtractPropFromComponentPropFieldForRendering<Prop extends ComponentPropField> =
   Prop extends ChildField
-  ? ReactNode
-  : Prop extends FormField<infer Value, any>
-  ? Value
-  : Prop extends ObjectField<infer Value>
-  ? { readonly [Key in keyof Value]: ExtractPropFromComponentPropFieldForRendering<Value[Key]> }
-  : Prop extends ConditionalField<infer Discriminant, infer Value, any>
-  ? {
-    readonly [Key in DiscriminantToString<Discriminant>]: {
-      readonly discriminant: Discriminant extends boolean
-      ? 'true' extends Key
-      ? true
-      : 'false' extends Key
-      ? false
-      : never
-      : Discriminant;
-      readonly value: Key extends keyof Value
-      ? ExtractPropFromComponentPropFieldForRendering<CastToComponentPropField<Value[Key]>>
-      : never;
-    };
-  }[DiscriminantToString<Discriminant>]
-  : Prop extends RelationshipField<infer Cardinality>
-  ? {
-    one: HydratedRelationshipData | null;
-    many: readonly HydratedRelationshipData[];
-  }[Cardinality]
-  : never;
+    ? ReactNode
+    : Prop extends FormField<infer Value, any>
+    ? Value
+    : Prop extends ObjectField<infer Value>
+    ? { readonly [Key in keyof Value]: ExtractPropFromComponentPropFieldForRendering<Value[Key]> }
+    : Prop extends ConditionalField<infer Discriminant, infer Value, any>
+    ? {
+        readonly [Key in DiscriminantToString<Discriminant>]: {
+          readonly discriminant: Discriminant extends boolean
+            ? 'true' extends Key
+              ? true
+              : 'false' extends Key
+              ? false
+              : never
+            : Discriminant;
+          readonly value: Key extends keyof Value
+            ? ExtractPropFromComponentPropFieldForRendering<CastToComponentPropField<Value[Key]>>
+            : never;
+        };
+      }[DiscriminantToString<Discriminant>]
+    : Prop extends RelationshipField<infer Cardinality>
+    ? {
+        one: HydratedRelationshipData | null;
+        many: readonly HydratedRelationshipData[];
+      }[Cardinality]
+    : never;
 
 type ExtractPropsForPropsForRendering<Props extends Record<string, ComponentPropField>> = {
   readonly [Key in keyof Props]: ExtractPropFromComponentPropFieldForRendering<Props[Key]>;
@@ -597,8 +597,8 @@ type ExtractPropsForPropsForRendering<Props extends Record<string, ComponentProp
 
 export type InferRenderersForComponentBlocks<
   ComponentBlocks extends Record<string, ComponentBlock<any>>
-  > = {
-    [Key in keyof ComponentBlocks]: Comp<
-      ExtractPropsForPropsForRendering<ComponentBlocks[Key]['props']>
-    >;
-  };
+> = {
+  [Key in keyof ComponentBlocks]: Comp<
+    ExtractPropsForPropsForRendering<ComponentBlocks[Key]['props']>
+  >;
+};
