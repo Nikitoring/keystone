@@ -59,7 +59,10 @@ type idFieldTypeOverride = {
 export const idFieldType =
   (config: IdFieldConfig): FieldTypeFunc =>
   meta => {
-    const override = config.experimental?.enableOverrides === true ? config.override as idFieldTypeOverride : {} as idFieldTypeOverride;
+    const override =
+      config.experimental?.enableOverrides === true
+        ? (config.override as idFieldTypeOverride)
+        : ({} as idFieldTypeOverride);
     const parseVal = override?.parseVal ?? idParsers[config.kind];
     let field: any = fieldType<ScalarDBField<'String' | 'Int', 'required'>>({
       kind: 'scalar',
