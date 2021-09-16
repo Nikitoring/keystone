@@ -7,6 +7,8 @@ import {
   orderDirectionEnum,
   ScalarDBField,
   schema,
+  BaseFields,
+  BaseGeneratedListTypes,
 } from '@keystone-next/types';
 import { validate } from 'uuid';
 import { isCuid } from 'cuid';
@@ -43,10 +45,21 @@ const idParsers = {
   },
 };
 
+type idFieldTypeOverride = {
+  parseVal?: () => string;
+  dbField?: object;
+  field?: BaseFields<BaseGeneratedListTypes>;
+};
+
+// type parseVal = {
+//   value: string;
+//   context: KeystoneContext;
+// };
+
 export const idFieldType =
   (config: IdFieldConfig): FieldTypeFunc =>
   meta => {
-    const override = config.experimental?.enableOverrides === true ? config.override : {};
+    const override = config.experimental?.enableOverrides === true ? config.override as idFieldTypeOverride : {} as idFieldTypeOverride;
     const parseVal = override?.parseVal ?? idParsers[config.kind];
     let field: any = fieldType<ScalarDBField<'String' | 'Int', 'required'>>({
       kind: 'scalar',
