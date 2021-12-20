@@ -24,3 +24,5 @@ export { timestamp } from './types/timestamp';
 export type { TimestampFieldConfig } from './types/timestamp';
 export { virtual } from './types/virtual';
 export type { VirtualFieldConfig } from './types/virtual';
+export { nestedSet } from './types/nested-set';
+export type { NestedSetConfig } from './types/nested-set';
