@@ -22,6 +22,43 @@ type SelectDisplayConfig = {
   };
 };
 
+
+export type NestedSetData = {
+  depth: number;
+  left: string;
+  right: string;
+  parent: string;
+};
+
+const nestedSetOutputFields = graphql.fields<NestedSetData>()({
+  depth: graphql.field({ type: graphql.nonNull(graphql.Int) }),
+  parent: graphql.field({ type: graphql.nonNull(graphql.String) }),
+  left: graphql.field({ type: graphql.nonNull(graphql.String) }),
+  right: graphql.field({ type: graphql.nonNull(graphql.String) })
+});
+
+const NestedFieldOutput = graphql.interface<NestedSetData>()({
+  name: 'NestedFieldOutput',
+  fields: nestedSetOutputFields,
+  resolveType: () => {return 'NestedSetFieldOutput';}
+});
+
+const NestedSetFieldOutput = graphql.object<NestedSetData>()({
+  name: 'NestedSetFieldOutput',
+  interfaces: [NestedFieldOutput],
+  fields: nestedSetOutputFields,
+});
+
+const NestedSetFieldInput = graphql.inputObject({
+  name: 'NestedSetFieldInput',
+  fields: {
+    depth: graphql.arg({ type: graphql.Int }),
+    parent: graphql.arg({ type: graphql.String }),
+    left: graphql.arg({ type: graphql.String }),
+    right: graphql.arg({ type: graphql.String })
+  },
+});
+
 export type NestedSetConfig<ListTypeInfo extends BaseListTypeInfo> =
   CommonFieldConfig<ListTypeInfo> & {} & SelectDisplayConfig;
 
@@ -61,7 +98,7 @@ export const nestedSet =
           scalar: 'String',
           mode: 'optional',
         },
-        rigth: {
+        right: {
           kind: 'scalar',
           scalar: 'String',
           mode: 'optional',
@@ -76,24 +113,43 @@ export const nestedSet =
       ...commonConfig,
       input: {
         create: {
-          arg: graphql.arg({ type: listTypes.where }),
+          arg: graphql.arg({ type: NestedSetFieldInput }),
           resolve(val) {
+            console.log('CREATE', val);
             if (val === undefined) {
-              return null;
+              return {
+                parent: null,
+                left: null,
+                right: null,
+                depth: null
+              };
             }
-            // return val;
+            return val;
           },
         },
         update: {
-          arg: graphql.arg({ type: listTypes.where }),
+          arg: graphql.arg({ type: NestedSetFieldInput }),
+          async resolve( value) {
+            console.log('Update: ', value);
+            return value;
+          }
         },
       },
       output: graphql.field({
-        type: listTypes.output,
-        resolve( value) {
-          console.log('value', value);
-          return value;
+        type: NestedFieldOutput,
+        resolve( { value: { parent, left, right, depth } }) {
+          console.log('OUTPUT');
+          if (
+            parent === '' ||
+            left === '' ||
+            right === '' ||
+            depth === null
+          ) {
+            return null;
+          }
+          return { parent, left, right, depth };
         },
       }),
+      unreferencedConcreteInterfaceImplementations: [NestedSetFieldOutput],
     });
   };

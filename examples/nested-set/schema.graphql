@@ -6,7 +6,8 @@ type Post {
   title: String
   status: PostStatusType
   content: String
-  nestedPosition: Post
+  nestedPosition: NestedFieldOutput
+  avatar: ImageFieldOutput
   author: Author
 }
 
@@ -15,8 +16,59 @@ enum PostStatusType {
   published
 }
 
+interface NestedFieldOutput {
+  depth: Int!
+  parent: String!
+  left: String!
+  right: String!
+}
+
+interface ImageFieldOutput {
+  id: ID!
+  filesize: Int!
+  width: Int!
+  height: Int!
+  extension: ImageExtension!
+  ref: String!
+  url: String!
+}
+
+enum ImageExtension {
+  jpg
+  png
+  webp
+  gif
+}
+
 input PostWhereUniqueInput {
   id: ID
+}
+
+type NestedSetFieldOutput implements NestedFieldOutput {
+  depth: Int!
+  parent: String!
+  left: String!
+  right: String!
+}
+
+type LocalImageFieldOutput implements ImageFieldOutput {
+  id: ID!
+  filesize: Int!
+  width: Int!
+  height: Int!
+  extension: ImageExtension!
+  ref: String!
+  url: String!
+}
+
+type CloudImageFieldOutput implements ImageFieldOutput {
+  id: ID!
+  filesize: Int!
+  width: Int!
+  height: Int!
+  extension: ImageExtension!
+  ref: String!
+  url: String!
 }
 
 input PostWhereInput {
@@ -92,9 +144,27 @@ input PostUpdateInput {
   title: String
   status: PostStatusType
   content: String
-  nestedPosition: PostWhereInput
+  nestedPosition: NestedSetFieldInput
+  avatar: ImageFieldInput
   author: AuthorRelateToOneForUpdateInput
 }
+
+input NestedSetFieldInput {
+  depth: Int
+  parent: String
+  left: String
+  right: String
+}
+
+input ImageFieldInput {
+  upload: Upload
+  ref: String
+}
+
+"""
+The `Upload` scalar type represents a file upload.
+"""
+scalar Upload
 
 input AuthorRelateToOneForUpdateInput {
   create: AuthorCreateInput
@@ -111,7 +181,8 @@ input PostCreateInput {
   title: String
   status: PostStatusType
   content: String
-  nestedPosition: PostWhereInput
+  nestedPosition: NestedSetFieldInput
+  avatar: ImageFieldInput
   author: AuthorRelateToOneForCreateInput
 }
 

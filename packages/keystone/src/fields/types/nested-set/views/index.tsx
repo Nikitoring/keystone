@@ -25,7 +25,6 @@ export const Field = ({
   // autoFocus,
   // forceValidation,
 }: FieldProps<typeof controller>) => {
-  console.log('field:', field, value, onChange);
   const list = useList(field.listKey);
   return (
     <FieldContainer as="fieldset">
@@ -35,11 +34,12 @@ export const Field = ({
           controlShouldRenderValue
           list={list}
           isLoading={false}
+          field={field.path}
           isDisabled={onChange === undefined}
           state={{
             value,
             onChange(newVal) {
-              // onChange?.({ ...value, value: newVal });
+              onChange?.({ ...value, value: newVal });
             },
           }}
         />
@@ -88,30 +88,17 @@ export const CardValue: CardValueComponent<typeof controller> = ({ field }) => {
   );
 };
 
-export type AdminSelectFieldMeta = {
-  parent: string;
-  left: string;
-  right: string;
-  depth: number;
-};
+export type NestedSetValue = {
+  id: string | null;
+  initialValue: { label: string; id: string; } | null;
+  value: { label: string; id: string; } | null;
+}
+
+type NestedSetController = FieldController<NestedSetValue>;
 
 export const controller = (
-  config: FieldControllerConfig<
-    {
-      listKey: string;
-      labelField: string;
-    }>
-): FieldController<{
-  parent: string;
-  left: string;
-  right: string;
-  depth: number;
-  listKey: string;
-  labelField: string;
-  id: null | string;
-  initialValue: { label: string; id: string } | null;
-  value: { label: string; id: string } | null;
-}> => {
+  config: FieldControllerConfig): FieldController<NestedSetController> => {
+  console.log('config: ', config);
   return {
     path: config.path,
     label: config.label,
@@ -119,24 +106,22 @@ export const controller = (
     defaultValue: { id: null, value: null, initialValue: null },
     graphqlSelection:
       `${config.path} {
-      id
-      label: ${config.label}
+        parent
+        left
+        right
+        depth
     }`,
-    // deserialize: data => {
-    //   console.log('deserialize: ', data);
-    //   let value = data[config.path];
-    //   if (value) {
-    //     value = {
-    //       id: value.id,
-    //       label: value.label || value.id,
-    //     };
-    //   }
-    //   return {
-    //     id: data.parent,
-    //     value,
-    //     initialValue: value,
-    //   };
-    // },
+    deserialize(item) {
+      const value = item[config.path];
+      return {
+        data: {
+          parent: value.parent,
+          left: value.left,
+          right: value.right,
+          depth: value.depth,
+        },
+      };
+    },
     serialize: value => ({ [config.path]: value }),
   };
 };

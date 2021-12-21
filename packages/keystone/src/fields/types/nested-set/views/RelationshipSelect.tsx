@@ -104,7 +104,8 @@ export const RelationshipSelect = ({
   list,
   placeholder,
   portalMenu,
-  state
+  state,
+  field
 }: {
   autoFocus?: boolean;
   controlShouldRenderValue: boolean;
@@ -117,6 +118,7 @@ export const RelationshipSelect = ({
     value: { label: string; id: string; data?: Record<string, any> } | null;
     onChange(value: { label: string; id: string; data: Record<string, any> } | null): void;
   }
+  field: string;
 }) => {
   const [search, setSearch] = useState('');
   // note it's important that this is in state rather than a ref
@@ -125,15 +127,19 @@ export const RelationshipSelect = ({
   // on the right element
   const [loadingIndicatorElement, setLoadingIndicatorElement] = useState<null | HTMLElement>(null);
   const QUERY: TypedDocumentNode<
-    { items: { [idField]: string;[labelField]: string | null }[]; count: number },
+    { items: { [idField]: string;[labelField]: string | null; }[]; count: number },
     { where: Record<string, any>; take: number; skip: number }
   > = gql`
     query NestedSetSelect($where: ${list.gqlNames.whereInputName}!, $take: Int!, $skip: Int!) {
       items: ${list.gqlNames.listQueryName}(where: $where, take: $take, skip: $skip) {
         ${idField}: id
         ${labelField}: ${list.labelField}
-        parent: parent
-        depth: depth 
+        ${field} {
+          parent
+          left
+          right
+          depth
+        }
       }
       count: ${list.gqlNames.listQueryCountName}(where: $where)
     }
@@ -186,7 +192,6 @@ export const RelationshipSelect = ({
       label: label || value,
       data,
     })) || [];
-
   const loadingIndicatorContextVal = useMemo(
     () => ({
       count,
