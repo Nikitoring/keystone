@@ -12,22 +12,15 @@ generator client {
 }
 
 model Post {
-  id                    String  @id @default(cuid())
-  title                 String  @default("")
-  status                String?
-  content               String  @default("")
-  nestedPosition_parent String?
-  nestedPosition_left   String?
-  nestedPosition_right  String?
-  nestedPosition_depth  Int?
-  avatar_filesize       Int?
-  avatar_extension      String?
-  avatar_width          Int?
-  avatar_height         Int?
-  avatar_mode           String?
-  avatar_id             String?
-  author                Author? @relation("Post_author", fields: [authorId], references: [id])
-  authorId              String? @map("author")
+  id                   String  @id @default(cuid())
+  title                String  @default("")
+  status               String?
+  content              String  @default("")
+  nestedPosition_left  Int?
+  nestedPosition_rght  Int?
+  nestedPosition_depth Int?
+  author               Author? @relation("Post_author", fields: [authorId], references: [id])
+  authorId             String? @map("author")
 
   @@index([authorId])
 }

@@ -1,5 +1,5 @@
 import { list } from '@keystone-6/core';
-import { select, relationship, text, nestedSet, image } from '@keystone-6/core/fields';
+import { select, relationship, text, nestedSet } from '@keystone-6/core/fields';
 
 export const lists = {
   Post: list({
@@ -14,7 +14,6 @@ export const lists = {
       }),
       content: text(),
       nestedPosition: nestedSet(),
-      avatar: image(),
       author: relationship({ ref: 'Author.posts', many: false }),
     },
   }),

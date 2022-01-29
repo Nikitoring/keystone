@@ -197,3 +197,16 @@ export type ImagesContext = {
   getDataFromRef: (ref: string) => Promise<ImageData>;
   getDataFromStream: (stream: Readable) => Promise<ImageData>;
 };
+
+
+// NestedSet API
+export type NestedSetData = {
+  parent: string;
+  right: string;
+  left: string;
+  depth: number;
+}
+
+export type NestedSetContext = {
+  getData: (parent: string) => Promise<NestedSetData>;
+}
